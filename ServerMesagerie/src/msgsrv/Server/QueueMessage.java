@@ -1,6 +1,6 @@
 package msgsrv.Server;
 
-public class QueueServer {
+public class QueueMessage {
 	public int destinatar;
 	public String body;
 }
