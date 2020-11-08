@@ -21,15 +21,15 @@ public class TopicGetClient extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-                String myTopic = TopicGenerator.get();
+            String myTopic = TopicGenerator.get();
 
-                LinkedList<String> result = server.getTopic(myTopic);
+            LinkedList<String> result = server.getTopic(myTopic);
 
-                if (result != null) {
-                    for (String mesaj : result) {
-                        System.out.println(mesaj);
-                    }
+            if (result != null) {
+                for (String mesaj : result) {
+                    System.out.println(mesaj);
                 }
+            }
 
         }
     }

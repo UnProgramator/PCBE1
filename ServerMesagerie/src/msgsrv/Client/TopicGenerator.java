@@ -8,9 +8,9 @@ public class TopicGenerator {
     public static List<String> topic = new ArrayList<>(){
         {
             add("Topic1");
-            add("Topic22");
+            add("Topic2");
             add("Topic3");
-            add("Topic44");
+            add("Topic4");
         }
     };
 
