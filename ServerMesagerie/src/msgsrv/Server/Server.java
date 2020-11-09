@@ -7,6 +7,9 @@ public class Server extends Thread {
 	
 	int maxTime;
 	
+	private LinkedList<QueueMessage> queue=new LinkedList<QueueMessage>();
+	private int queuelimit;
+	
 	public Server() {
 		this(100);
 	}
@@ -65,4 +68,30 @@ public class Server extends Thread {
 	}
 	
 	//serverul de mesage
+	public boolean addQueue(QueueMessage msg)
+	{
+		synchronized(queue) {
+			if(this.queue.size() < this.queuelimit)
+			{
+			this.queue.add(msg);
+			return true;
+			}else return false;	 
+		}
+	}
+	
+
+	
+	public QueueMessage getFromQueue(int clientID)
+	{
+		synchronized(queue) {
+			if(queue.size() > 0){
+				if(clientID==queue.getFirst().destinatar)
+					return queue.remove(0);
+			}
+		}
+		 	return null;
+		
+	}
+	
+	
 }
