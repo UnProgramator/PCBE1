@@ -10,6 +10,8 @@ public class ClientQueue extends Thread{
 	private int idClient;
 	private ClientIDMgr idMgr=ClientIDMgr.getIntance();
 	private QueueMessage qm;
+	private QueueMessage toSent;
+	private boolean sendMessage = true;
 	
 	public ClientQueue(int id, Server sv)  {
 		
@@ -25,25 +27,32 @@ public class ClientQueue extends Thread{
 	}
 	
 	public void run() {
-		while(true) {
-			
-		int id;
-		id=idMgr.getID(idClient);
-		if(id >= 0)
-		{
-			qm=sv.getFromQueue(id);
-			
-		}	
-		if(qm!=null)
-		{
-			System.out.println("Message to client with id"+ id+ ": " +qm.body);
-		}
-		try {	
+		toSent = null;
+		int crt=0;
+		while(true) {	
+			if(sendMessage) {
+				if(toSent == null) {
+					toSent = new QueueMessage();
+					toSent.body = "newMessage " + crt + " from " + idClient;
+					toSent.destinatar = idMgr.getID(idClient);
+				}
 				
-			
+				if(sv.addQueue(toSent)) {
+					toSent=null;
+				}
+			}
+			else {
+				int id = idMgr.getID(idClient);
+				qm=sv.getFromQueue(id);
+				if(qm!=null)
+				{
+					System.out.println("Message to client with id"+ id+ ": " +qm.body);
+				}
+			}
+			sendMessage=Math.random() < 0.5;
+			try {	
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -25,7 +25,6 @@ public class Server extends Thread {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -73,9 +72,10 @@ public class Server extends Thread {
 		synchronized(queue) {
 			if(this.queue.size() < this.queuelimit)
 			{
-			this.queue.add(msg);
-			return true;
-			}else return false;	 
+				this.queue.add(msg);
+				return true;
+			}else 
+				return false;	 
 		}
 	}
 	
@@ -89,8 +89,7 @@ public class Server extends Thread {
 					return queue.remove(0);
 			}
 		}
-		 	return null;
-		
+		return null;	
 	}
 	
 	
