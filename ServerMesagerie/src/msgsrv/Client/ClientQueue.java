@@ -10,20 +10,17 @@ public class ClientQueue extends Thread{
 	private int idClient;
 	private ClientIDMgr idMgr=ClientIDMgr.getIntance();
 	private QueueMessage qm;
-	private QueueMessage toSent;
+	private QueueMessage toSent = null;
 	private boolean sendMessage = true;
 	
 	public ClientQueue(int id, Server sv)  {
-		
-		this.sv=sv;
-		idClient=id;
-		idMgr.register(idClient);
 		if(id<0)
 		{
 			throw new IllegalArgumentException("Only positive IDs");
 		}
-		
-		
+		this.sv=sv;
+		idClient=id;
+		idMgr.register(idClient);
 	}
 	
 	public void run() {
@@ -35,6 +32,7 @@ public class ClientQueue extends Thread{
 					toSent = new QueueMessage();
 					toSent.body = "newMessage " + crt + " from " + idClient;
 					toSent.destinatar = idMgr.getID(idClient);
+					crt++;
 				}
 				
 				if(sv.addQueue(toSent)) {
@@ -42,11 +40,10 @@ public class ClientQueue extends Thread{
 				}
 			}
 			else {
-				int id = idMgr.getID(idClient);
-				qm=sv.getFromQueue(id);
+				qm=sv.getFromQueue(idClient);
 				if(qm!=null)
 				{
-					System.out.println("Message to client with id"+ id+ ": " +qm.body);
+					System.out.println("Message to client with id " + idClient + " : \"" + qm.body + "\"");
 				}
 			}
 			sendMessage=Math.random() < 0.5;

@@ -10,7 +10,7 @@ public class ClientIDMgr {
 	
 	public List<Integer> idList = new ArrayList<Integer>();
 	private static volatile ClientIDMgr idMgr= null;
-	Object o;
+	Object o = new Object();
 
 	private ClientIDMgr() {};
 
@@ -38,7 +38,7 @@ public class ClientIDMgr {
 		int i;
 		do { 
 			synchronized(o){// optional?
-				i = idList.get((int)Math.random()%idList.size());
+				i = idList.get((int)(Math.random()*idList.size()));
 			}
 		}while(i==myID);
 		return i;

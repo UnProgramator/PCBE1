@@ -36,7 +36,5 @@ public class Main {
         server.join();
         for(Thread t : threads)
         	t.join();
-        
-
     }
 }

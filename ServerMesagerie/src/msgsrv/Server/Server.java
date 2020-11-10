@@ -8,7 +8,7 @@ public class Server extends Thread {
 	int maxTime;
 	
 	private LinkedList<QueueMessage> queue=new LinkedList<QueueMessage>();
-	private int queuelimit;
+	private int queuelimit = 100;
 	
 	public Server() {
 		this(100);
