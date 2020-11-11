@@ -3,20 +3,21 @@ package msgsrv.Server;
 import java.util.LinkedList;
 
 public class Server extends Thread {
-	private LinkedList<TopicMessage> topics;
+	private volatile LinkedList<TopicMessage> topics;
 	
-	int maxTime;
+	final int maxTime;
 	
-	private LinkedList<QueueMessage> queue=new LinkedList<QueueMessage>();
-	private int queuelimit = 100;
+	private volatile LinkedList<QueueMessage> queue=new LinkedList<QueueMessage>();
+	private final int queuelimit;
 	
 	public Server() {
-		this(100);
+		this(100, 100);
 	}
 	
-	public Server(int maxTime) {
+	public Server(int maxTime, int queuelimit) {
 		topics = new LinkedList<TopicMessage>();
 		this.maxTime=maxTime;
+		this.queuelimit=queuelimit;
 	}
 	
 	public void run() {
